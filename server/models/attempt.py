@@ -1,6 +1,6 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy import Enum
-from datetime import datetime
+from datetime import datetime, timezone
 
 from config import db
 
@@ -15,7 +15,7 @@ class Attempt(db.Model, SerializerMixin):
         Enum('Solved', 'Attempted', 'Unsolved', name='status_enum'),
         nullable=False
     )
-    date = db.Column(db.DateTime, default=datetime.utcnow)
+    date = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     time_taken = db.Column(db.Integer)
     solution_notes = db.Column(db.Text)
     language = db.Column(db.String)

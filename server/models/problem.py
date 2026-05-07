@@ -1,6 +1,6 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy import Enum
-from datetime import datetime
+from datetime import datetime, timezone
 
 from config import db
 
@@ -19,7 +19,7 @@ class Problem(db.Model, SerializerMixin):
     problem_type = db.Column(db.String, nullable=False)
     url = db.Column(db.String)
     notes = db.Column(db.Text)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
